@@ -24,26 +24,27 @@ def index(request):
 @csrf_exempt
 @login_required
 def compose(request):
-
-    print("got to the view")
     # Composing a new email must be via POST
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
     # Check recipient emails
     data = json.loads(request.body)
+    print(data)
     emails = [email.strip() for email in data.get("recipients").split(",")]
     if emails == [""]:
         return JsonResponse({
             "error": "At least one recipient required."
         }, status=400)
 
+    print("working")
     # Convert email addresses to users
     recipients = []
     for email in emails:
         try:
             user = User.objects.get(email=email)
             recipients.append(user)
+            print("still working")
         except User.DoesNotExist:
             return JsonResponse({
                 "error": f"User with email {email} does not exist."
@@ -52,7 +53,7 @@ def compose(request):
     # Get contents of email
     subject = data.get("subject", "")
     body = data.get("body", "")
-
+    print("still working2")
     # Create one email for each recipient, plus sender
     users = set()
     users.add(request.user)
@@ -66,11 +67,14 @@ def compose(request):
             read=user == request.user
         )
         email.save()
+        print("email.save successful")
         for recipient in recipients:
             email.recipients.add(recipient)
         email.save()
-
-    return JsonResponse({"message": "Email sent successfully."}, status=201)
+    print("RETURN JSON")
+    ac = JsonResponse({"message": "Email sent successfully."},status=201)
+    print(ac)
+    return ac
 
 
 @login_required

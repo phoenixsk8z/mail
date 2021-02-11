@@ -24,48 +24,26 @@ function compose_email() {
 
 function compose_email_post() {
   // Get values and send them to the server
-  var recipients = document.getElementById('compose-recipients').value;
-  var subject_email = document.getElementById('compose-subject').value;
-  var body_email = document.getElementById('compose-body').value;
-  var params = 'recipients=recipients&subject=subject_email&body=body_email';
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", 'emails', true);
-
+  fetch('/emails', {
+    method: 'POST',
+    body: JSON.stringify({
+      recipients: document.getElementById('compose-recipients').value,
+      subject: document.getElementById('compose-subject').value,
+      body: document.getElementById('compose-body').value
+    })
+  })
+  .then(response => {
+    alert("working")
+    response.json();
+  })
   /*
-  var params = new Object();
-  params.recipients = recipients;
-  params.subject = subject_email;
-  params.body = body_email;
-  
-  alert(params.recipients);
-
-  xhr.onreadystatechange = function() {//Call a function when the state changes.
-    if(http.readyState == 4 && http.status == 200) {
-        alert(http.responseText);
-    }
-  }
-
-  alert("broken")
-
-  let urlEncodedData = "", urlEncodedDataPairs = [], name;
-  for( name in params ) {
-    urlEncodedDataPairs.push(encodedURIComponent(name)+'='+encodeURIComponent(params[name]));
-  }
-  */
-  xhr.setRequestHeader('accept', 'application/json');
-  xhr.send(params);
-
-  /*
-  fetch(userRequest)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data);
-    })
-    .catch(function (err) {
-      console.log("Something went wrong!", err);
-    })
+  .then(result => {
+    console.log(result);
+    alert("working#2")
+  })
+  .catch(function (err) {
+    console.log("Something went wrong!", err);
+  })
   */
 }
 
