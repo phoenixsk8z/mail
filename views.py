@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Email
 
-
+@csrf_exempt
 def index(request):
 
     # Authenticated users view their inbox
@@ -76,10 +76,9 @@ def compose(request):
     print(ac)
     return ac
 
-
+@csrf_exempt
 @login_required
 def mailbox(request, mailbox):
-
     # Filter emails returned based on mailbox
     if mailbox == "inbox":
         emails = Email.objects.filter(
