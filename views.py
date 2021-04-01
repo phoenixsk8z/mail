@@ -66,6 +66,7 @@ def compose(request):
             body=body,
             read=user == request.user
         )
+        print("Email content:" + str(user) + str(request.user) + subject + body)
         email.save()
         print("email.save successful")
         for recipient in recipients:
@@ -81,6 +82,7 @@ def compose(request):
 def mailbox(request, mailbox):
     # Filter emails returned based on mailbox
     if mailbox == "inbox":
+        print("mailbox  == inbox")
         emails = Email.objects.filter(
             user=request.user, recipients=request.user, archived=False
         )
@@ -97,6 +99,9 @@ def mailbox(request, mailbox):
 
     # Return emails in reverse chronologial order
     emails = emails.order_by("-timestamp").all()
+    print("Returning Emails :)", emails, request.user)
+    emails1 = [email.serialize() for email in emails]
+    print("EMAILS1", emails1)
     return JsonResponse([email.serialize() for email in emails], safe=False)
 
 
@@ -104,14 +109,18 @@ def mailbox(request, mailbox):
 @login_required
 def email(request, email_id):
 
+    print("Checking for requested email")
     # Query for requested email
     try:
         email = Email.objects.get(user=request.user, pk=email_id)
+        print("requested email found")
     except Email.DoesNotExist:
+        print("requested email not found")
         return JsonResponse({"error": "Email not found."}, status=404)
 
     # Return email contents
     if request.method == "GET":
+        print("wow returning email content")
         return JsonResponse(email.serialize())
 
     # Update whether email is read or should be archived

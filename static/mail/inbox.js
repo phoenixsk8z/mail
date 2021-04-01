@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   // Use buttons to toggle between views
-  document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
-  document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
-  document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-  document.querySelector('#compose').addEventListener('click', compose_email);
+  document.querySelector('#inbox-nav').addEventListener('click', () => load_mailbox('inbox'));
+  document.querySelector('#sent-nav').addEventListener('click', () => load_mailbox('sent'));
+  document.querySelector('#archived-nav').addEventListener('click', () => load_mailbox('archive'));
+  document.querySelector('#compose-nav').addEventListener('click', compose_email);
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -14,7 +14,7 @@ function compose_email() {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
-  document.querySelector('#compose-view').style.display = 'block';
+  document.querySelector('#compose-view').style.display = 'grid';
 
   // Clear out composition fields
   document.querySelector('#compose-recipients').value = '';
@@ -47,7 +47,7 @@ function compose_email_post() {
 function load_mailbox(mailbox) {
   
   // Show the mailbox and hide other views
-  document.querySelector('#emails-view').style.display = 'block';
+  document.querySelector('#emails-view').style.display = 'grid';
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
@@ -60,8 +60,7 @@ function load_mailbox(mailbox) {
     return;
   }
   fetch(`/emails/${mailbox}`)
-  .then(response => {alert(JSON.stringify(response))})
-  .then(response => {JSON.parse(response)})
+  .then((response) => response.json())
   .then((emails) => {
     emails.forEach((element) => {
     if (mailbox == "sent") {
@@ -71,20 +70,21 @@ function load_mailbox(mailbox) {
     }
 
     if (mailbox == "inbox") {
-      if (element.read) is_read = True;
-      else is_read = False;
-    } 
+      if (element.read) is_read = "Read";
+      else is_read = "";
+    } else is_read = "";
 
     var email = document.createElement("div");
 
-    email.className = `card ${is_read} my-1 items`;
+    email.className = `inbox-email ${is_read}`;
+    email.className = "email-div";
 
-    email.innerHTML = `<div class="email" id="item-${element.id}">
+    email.innerHTML = `<div class="email" id="email-${element.id}">
     ${element.subject} | ${sender_recipients} | ${element.timestamp} 
     <br> ${element.body.slice(0,100)}
     </div>`;
-    document.querySelector("#emails-view").appendChild(item);
-    item.addEventListener("click", () => {
+    document.querySelector("#emails-view").appendChild(email);
+    email.addEventListener("click", () => {
       show_mail(element.id, mailbox);
     });
   });
@@ -96,26 +96,28 @@ function show_mail(id, mailbox) {
   .then((response) => response.json())
   .then((email) => {
     document.querySelector("#emails-view").innerHTML = "";
-    var object = document.createElement("div");
-    object.className = `object`;
-    object.innerHTML = `<div class="object-body" style="white-space: pre-wrap;">
+    var email_body = document.createElement("div");
+    email_body.className = `email_div`;
+
+    email_body.innerHTML = `<div class="email_body" style="white-space: pre-wrap;">
     Sender: ${email.sender}
     Recipients: ${email.recipients}
     Subject: ${email.subject}
     Time: ${email.timestamp}
     <br>: ${email.body}
     </div>`;
-    document.querySelector('#emails-view').appendChild(object);
+
+    document.querySelector('#emails-view').appendChild(email_body);
     if (mailbox == "sent") return;
     let archive = document.createElement("btn");
     archive.className = `Achrive-btn`;
-    archive.addEventListener("click", ()=> {
+    archive.addEventListener("click", () => {
       toggle_archive(id, email.archived);
       if (archive.innerText == "Archive") archive.innerText = "Unarchive";
       else archive.innerText = "Archive"
     })
     if (!email.archived) archive.textContent = "Archive";
-    else archive.innerText = "Archive";
+    else archive.innerText = "Unarchive";
     document.querySelector("#emails-view").appendChild(archive);
 
     let reply = document.createElement("btn");
@@ -133,7 +135,7 @@ function toggle_archive(id, state) {
   fetch(`/emails/${id}`, {
     method: "PUT",
     body: JSON.stringify({
-      archive: !state,
+      archived: !state,
     }),
   });
 }

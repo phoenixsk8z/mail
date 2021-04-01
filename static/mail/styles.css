@@ -1,3 +1,163 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: lightblue;
+}
+
 textarea {
     min-height: 400px;
+}
+
+#nav-bar {
+    display: grid;
+    grid-template-rows: 40px;
+    grid-template-columns: repeat(6, auto);
+    justify-items: center;
+    align-items: center; 
+    column-gap: 24px;
+    padding: 20px;
+    max-width: 1100px;
+}
+
+#nav-sep {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+}
+
+#user-email {
+    font-size: 32px;
+    margin-right: 10px;
+}
+
+#logout-nav {
+    white-space: nowrap;
+    justify-self: center;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+button, a {
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: lightblue;
+    color: white;
+    padding: 5px 14px;
+    font-size: 24px;
+}
+
+input, textarea {
+    border: 2px solid white;
+    border-radius: 8px;
+    font-size: 20px;
+    padding: 5px 8px;
+    background-color: lightblue!important;
+    margin: 8px;
+}
+
+input:focus, button:focus, textarea:focus, a:focus {
+    outline: none;
+}
+
+
+button:hover, input:hover, a:hover, textarea:hover{
+    box-shadow: 0px 0px 4px darkblue;
+}
+
+#compose-view {
+    display: grid;
+    max-width: 800px;
+    margin: auto;
+    justify-items: center;
+}
+
+#new-email {
+    font-size: 24px;
+    margin: 18px 8px 8px 8px;
+    justify-self: center;
+}
+
+.send-email-input, .send-email-input > input {
+    min-width: 100%;
+}
+
+#send-email-btn {
+    width: 100%;
+    margin: 8px;
+}
+
+::placeholder {
+    color: white;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px lightblue inset !important;
+  -webkit-text-fill-color: white !important;
+}
+
+#emails-view {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    justify-content: center;
+    margin: 20px;
+    row-gap: 10px;
+}
+
+.email-div {
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+#emails-view h3 {
+    font-size: 24px;
+}
+
+#register-div, #login-div, #already-have-acc-div, #dont-have-acc-div {
+    display: grid;
+    justify-content: center;
+    margin: auto;
+    margin-top: 20px;
+}
+
+
+#register, #login {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 6px;
+}
+
+#register-btn, #login-btn {
+    width: 100%;
+    margin: 8px 0;
+}
+
+.form-register, .form-login {
+    margin: 8px 0;
+}
+
+#already-have-acc {
+    font-size: 23px;
+}
+
+#dont-have-acc {
+    font-size: 25px;
+}
+
+#login-here-btn, #register-here-btn {
+    text-align: center;
+    margin-top: 6px;
 }
