@@ -79,9 +79,11 @@ function load_mailbox(mailbox) {
     email.className = `inbox-email ${is_read}`;
     email.className = "email-div";
 
-    email.innerHTML = `<div class="email" id="email-${element.id}">
-    ${element.subject} | ${sender_recipients} | ${element.timestamp} 
-    <br> ${element.body.slice(0,100)}
+    email.innerHTML = `<div class="inbox-email" id="email-${element.id}">
+    <h1 id="inbox-email-subject">${element.subject}</h1> 
+    <h1 id="inbox-email-recipients">${sender_recipients}</h1>
+    <h1 id="inbox-email-body">${element.body.slice(0,100)}</h1>
+    <h1 id="inbox-email-timestamp">${element.timestamp}</h1>
     </div>`;
     document.querySelector("#emails-view").appendChild(email);
     email.addEventListener("click", () => {
@@ -99,18 +101,32 @@ function show_mail(id, mailbox) {
     var email_body = document.createElement("div");
     email_body.className = `email_div`;
 
-    email_body.innerHTML = `<div class="email_body" style="white-space: pre-wrap;">
-    Sender: ${email.sender}
-    Recipients: ${email.recipients}
-    Subject: ${email.subject}
-    Time: ${email.timestamp}
-    <br>: ${email.body}
+    email_body.innerHTML = `<div class="view-email" style="white-space: pre-wrap;">
+    <div class="view-email-info-div"> 
+      <h1 id="view-email-sender">Sent by: ${email.sender}</h1>
+      <h1 id="view-email-recipients">Recipients: ${email.recipients}</h1>
+      <h1 id="view-email-timestamp">Time sent: ${email.timestamp}</h1>
+    </div>
+    <div class="view-email-body-div">
+      <h1 id="view-email-subject">Subject: ${email.subject}</h1>
+      <span id="email-subject-body-sep"></span>
+      <h1 id="view-email-body">${email.body}</h1>
+    </div>
     </div>`;
 
     document.querySelector('#emails-view').appendChild(email_body);
     if (mailbox == "sent") return;
+    let reply = document.createElement("btn");
+    reply.className = `Reply-btn`;
+    reply.textContent = "Reply";
+    reply.addEventListener("click", () => {
+      reply_mail(email.sender, email.subject, email.body, email.timestamp);
+    });
+    document.querySelector("#emails-view").appendChild(reply);
+    make_read(id);
+    
     let archive = document.createElement("btn");
-    archive.className = `Achrive-btn`;
+    archive.className = `Archive-btn`;
     archive.addEventListener("click", () => {
       toggle_archive(id, email.archived);
       if (archive.innerText == "Archive") archive.innerText = "Unarchive";
@@ -120,14 +136,6 @@ function show_mail(id, mailbox) {
     else archive.innerText = "Unarchive";
     document.querySelector("#emails-view").appendChild(archive);
 
-    let reply = document.createElement("btn");
-    reply.className = `Reply-btn`;
-    reply.textContent = "Reply";
-    reply.addEventListener("click", () => {
-      reply_mail(email.sender, email.subject, email.body, email.timestamp);
-    });
-    document.querySelector("#emails-view").appendChild(reply);
-    make_read(id);
     });
 };
 

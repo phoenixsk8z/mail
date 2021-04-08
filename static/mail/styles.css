@@ -8,6 +8,7 @@
 
 body {
     background-color: lightblue;
+    max-width: 100%;
 }
 
 textarea {
@@ -29,12 +30,18 @@ textarea {
     display: block;
     width: 100%;
     height: 2px;
-    background-color: white;
+    background-color: darkblue;
+}
+
+.nav-btns {
+    cursor: pointer;
+    font-weight: 1000;
 }
 
 #user-email {
     font-size: 32px;
     margin-right: 10px;
+    font-weight: 1000;
 }
 
 #logout-nav {
@@ -67,6 +74,7 @@ input, textarea {
 
 input:focus, button:focus, textarea:focus, a:focus {
     outline: none;
+    box-shadow: 0px 0px 4px darkblue;
 }
 
 
@@ -120,10 +128,12 @@ select:-webkit-autofill {
     border: 2px solid white;
     border-radius: 5px;
     padding: 6px;
+    cursor: pointer;
 }
 
 #emails-view h3 {
     font-size: 24px;
+    font-weight: 1000;
 }
 
 #register-div, #login-div, #already-have-acc-div, #dont-have-acc-div {
@@ -160,4 +170,220 @@ select:-webkit-autofill {
 #login-here-btn, #register-here-btn {
     text-align: center;
     margin-top: 6px;
+}
+
+.Reply-btn, .Archive-btn {
+    border: 3px solid white;
+    width: 130px;
+    text-align: center;
+    padding: 6px 12px;
+    border-radius: 9px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.Archive-btn {
+    position: relative;
+    bottom: 62px;
+    left: 150px;
+    width: 160px!important;
+}
+
+.inbox-email {
+    display: grid;
+    grid-template-columns: 210px 300px auto 205px;
+    width: 100%;
+    align-items: center;
+    cursor: pointer;
+}
+
+#inbox-email-subject {
+    overflow: hidden;
+    padding-left: 10px;
+    white-space:nowrap;
+    align-content: end;
+    font-size: 22px;
+    font-weight: 1000;
+}
+
+#inbox-email-recipients {
+    padding-left: 22px;
+    overflow: hidden;
+    white-space:nowrap;
+    font-size: 22px;
+}
+
+#inbox-email-body {
+    overflow: hidden;
+    white-space:nowrap;
+    padding-left: 22px;
+    font-size: 22px;
+}
+
+#inbox-email-timestamp {
+    text-align: right;
+    padding-right: 10px;
+    font-size: 16px;
+}
+
+.email-div:hover {
+    box-shadow: 0px 0px 4px darkblue;
+}
+
+.view-email {
+    display: grid;
+    grid-template-rows: 50px auto;
+}
+
+.view-email-info-div {
+    display: grid;
+    grid-template-columns: repeat(2, auto) 3fr;
+    border: 2px solid white;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 10px;
+}
+
+.view-email-body-div {
+    display: grid;
+    grid-template-rows: 40px 2px auto;
+    border: 2px solid white;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 10px;
+    margin-top: 16px;
+}
+
+
+#view-email-timestamp {
+    font-size: 18px;
+    text-align: right;
+    font-weight: 1000;
+}
+
+#view-email-sender {
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 24px;
+    font-weight: 1000;
+    padding-right: 24px;
+}
+
+#view-email-recipients {
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 24px;
+    font-weight: 1000;
+}
+
+#view-email-subject {
+    margin-bottom: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#view-email-body {
+    margin-top: 10px;
+}
+#email-subject-body-sep {
+    display: block;
+    width: calc(100% + 28px);
+    height: 2px;
+    background-color: white;
+    position: relative;
+    right: 14px;
+}
+
+@media (max-width: 1120px) {
+    #nav-bar {
+        grid-template-rows: repeat(2, 50px);
+        grid-template-columns: repeat(3, 230px);
+        max-width: 900px;
+        align-items: center;
+        row-gap: 6px;
+        column-gap: 16px;
+    }    
+    #user-email {
+        font-size: 22px;
+    }
+    .nav-btns {
+        width: 230px;
+        text-align: center;
+    }
+    #view-email-sender, #view-email-recipients {
+        font-size: 18px;
+    }
+    #view-email-timestamp {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .inbox-email {
+        grid-template-columns: 210px 300px auto;
+    }
+    #inbox-email-timestamp {
+        display: none;
+    }
+    #inbox-email-body, #inbox-email-recipients, #inbox-email-subject  {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 740px) {
+    .inbox-email {
+        grid-template-columns: 150px 187px auto;
+    }
+    #inbox-email-timestamp {
+        display: none;
+    }
+    #inbox-email-body, #inbox-email-subject  {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 620px) {
+    .inbox-email {
+        grid-template-columns: 150px auto;
+    }
+    #inbox-email-timestamp, #inbox-email-recipients {
+        display: none;
+    }
+    #inbox-email-body, #inbox-email-subject  {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 760px) {
+    #nav-bar {
+        grid-template-rows: repeat(3, 50px);
+        grid-template-columns: repeat(2, 230px);
+        max-width: 600px;
+        align-items: center;
+        row-gap: 6px;
+        column-gap: 16px;
+    }    
+    #user-email {
+        font-size: 22px;
+    }
+    .nav-btns {
+        width: 230px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 530px) {
+    #nav-bar {
+        grid-template-columns: repeat(2, 200px);
+        max-width: 600px;
+    }
+    .nav-btns {
+        width: 200px;
+    }
+    #user-email {
+        font-size: 19px;
+    }
+    .send-email-input {
+        width: 210px;
+    }
 }
